@@ -14,7 +14,14 @@ export default function InquiryList() {
 
     const [columnDefs] = useState([
         { field: 'title' },
-        { field: 'description' }
+        { field: 'description' },
+        {
+            cellRenderer: (params) => (
+                <Link to={`/questions?inquiryid=${params.data.inquiryid}`}>
+                    <Button size="small">Questions</Button>
+                </Link>
+            ),
+        },
     ]);
 
     useEffect(() => {
@@ -41,9 +48,6 @@ export default function InquiryList() {
                     rowData={inquiries}
                     columnDefs={columnDefs}
                 >
-                    <Link to="/questions">
-                        <Button size="small">Questions</Button>
-                    </Link>
                 </AgGridReact>
             </div>
         </>

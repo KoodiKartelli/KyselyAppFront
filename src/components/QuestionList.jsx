@@ -14,12 +14,12 @@ export default function QuestionList() {
     useEffect(() => {
         const inquiryid = new URLSearchParams(location.search).get("inquiryid");
         if (inquiryid) {
-          fetchQuestions(inquiryid);
+            fetchQuestions(inquiryid);
         }
     }, [location]);
 
-    const fetchQuestions = () => {
-        fetch(`https://kyselyapp.onrender.com/questions?inquiryid=${inquiryid}`)
+    const fetchQuestions = (inquiryid) => {
+        fetch(`https://kyselyapp.onrender.com/inquiries/${inquiryid}/questions`)
             .then(response => {
                 if (response.ok) {
                     return response.json();
@@ -27,13 +27,13 @@ export default function QuestionList() {
                     throw new Error("Error in fetch: " + response.statusText)
                 }
             })
-            .then(data => setQuestions(data))
+            .then(data => setQuestions(data.questions))
             .catch(err => console.error(err))
     }
 
     return (
         <>
-            <div className="ag-theme-material" style={{ width: '80%', height: 500 }}>
+            <div className="ag-theme-material" style={{ width: '100%', height: 500 }}>
                 <AgGridReact
                     rowData={questions}
                     columnDefs={columnDefs}
