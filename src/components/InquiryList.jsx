@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
+import { Button } from "@mui/material";
+import { Link } from "react-router-dom";
+import QuestionList from "./QuestionList";
+
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-material.css";
 
 export default function InquiryList() {
 
@@ -35,7 +41,9 @@ export default function InquiryList() {
                     rowData={inquiries}
                     columnDefs={columnDefs}
                 >
-
+                    <Link to="/questions">
+                        <Button size="small">Questions</Button>
+                    </Link>
                 </AgGridReact>
             </div>
         </>
