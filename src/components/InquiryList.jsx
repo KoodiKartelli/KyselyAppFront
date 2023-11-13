@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
-import QuestionList from "./QuestionList";
-
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
+import "../style.css";
+
 
 export default function InquiryList() {
 
@@ -13,8 +13,8 @@ export default function InquiryList() {
     const [inquiries, setInquiries] = useState([]);
 
     const [columnDefs] = useState([
-        { field: 'title' },
-        { field: 'description' },
+        { field: 'title', sortable: true, filter: true, floatingFilter: true },
+        { field: 'description', cellStyle: { whiteSpace: 'normal' }, autoHeight: true },
         {
             cellRenderer: (params) => (
                 <Link to={`/questions?inquiryid=${params.data.inquiryid}`}>
@@ -27,6 +27,11 @@ export default function InquiryList() {
     useEffect(() => {
         fetchInquiries();
     }, [])
+
+    const defaultColDef = {
+        minWidth: 350,
+        rowHeight: 100,
+    }
 
     const fetchInquiries = () => {
         fetch('https://kyselyapp.onrender.com/inquiries')
@@ -43,10 +48,12 @@ export default function InquiryList() {
 
     return (
         <>
-            <div className="ag-theme-material" style={{ width: '80%', height: 500 }}>
+            <div className="ag-theme-material" style={{ height: '700px', width: '95%', margin: 'auto' }}>
                 <AgGridReact
                     rowData={inquiries}
                     columnDefs={columnDefs}
+                    defaultColDef={defaultColDef}
+                    domLayout='autoHeight'
                 >
                 </AgGridReact>
             </div>

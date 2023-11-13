@@ -8,7 +8,7 @@ export default function QuestionList() {
     const location = useLocation();
 
     const [columnDefs] = useState([
-        { field: 'text' }
+        { field: 'text', sortable: true, filter: true, floatingFilter: true }
     ]);
 
     useEffect(() => {
@@ -17,6 +17,10 @@ export default function QuestionList() {
             fetchQuestions(inquiryid);
         }
     }, [location]);
+
+    const defaultColDef = {
+        minWidth: 350,
+    }
 
     const fetchQuestions = (inquiryid) => {
         fetch(`https://kyselyapp.onrender.com/inquiries/${inquiryid}/questions`)
@@ -37,6 +41,7 @@ export default function QuestionList() {
                 <AgGridReact
                     rowData={questions}
                     columnDefs={columnDefs}
+                    defaultColDef={defaultColDef}
                 >
 
                 </AgGridReact>
