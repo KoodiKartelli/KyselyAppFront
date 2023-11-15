@@ -15,7 +15,7 @@ export default function QuestionList() {
         { field: 'text', sortable: true, filter: true, floatingFilter: true },
         {
             cellRenderer: (params) => (
-                <Link to={`/answers?questionid=${params.data.questionId}`}>
+                <Link to={`/answers?questionId=${params.data.questionId}`}>
                     <Button size="small">Answers</Button>
                 </Link>
             ),

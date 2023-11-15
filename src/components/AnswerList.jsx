@@ -20,7 +20,7 @@ export default function AnswerList() {
     }, [location]);
 
     const fetchAnswers = (questionId) => {
-        fetch(`https://kyselyapp.onrender.com//questions/${questionId}/answers`)
+        fetch(`https://kyselyapp.onrender.com/questions/${questionId}/answers`)
             .then(response => {
                 if (response.ok) {
                     return response.json();
