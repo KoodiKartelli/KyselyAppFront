@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import { useLocation } from "react-router-dom";
+import { Button } from "@mui/material";
+import { Link } from "react-router-dom";
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-material.css";
 
 export default function QuestionList() {
     const [question, setQuestion] = useState({ text: '' });
@@ -8,7 +12,14 @@ export default function QuestionList() {
     const location = useLocation();
 
     const [columnDefs] = useState([
-        { field: 'text', sortable: true, filter: true, floatingFilter: true }
+        { field: 'text', sortable: true, filter: true, floatingFilter: true },
+        {
+            cellRenderer: (params) => (
+                <Link to={`/answers?questionid=${params.data.questionId}`}>
+                    <Button size="small">Answers</Button>
+                </Link>
+            ),
+        },
     ]);
 
     useEffect(() => {
