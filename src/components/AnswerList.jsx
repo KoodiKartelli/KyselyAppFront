@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
+import "../style.css";
 
 export default function AnswerList() {
     const [answers, setAnswers] = useState([]);
@@ -32,12 +33,17 @@ export default function AnswerList() {
             .catch(err => console.error(err))
     }
 
+    const defaultColDef = {
+        minWidth: 350,
+    }
+
     return (
         <>
             <div className="ag-theme-material" style={{ width: '100%', height: 500 }}>
                 <AgGridReact
                     rowData={answers}
                     columnDefs={columnDefs}
+                    defaultColDef={defaultColDef}
                 >
 
                 </AgGridReact>
