@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import { useLocation } from "react-router-dom";
-import { Button } from "@mui/material";
+import { Button, Input } from "@mui/material";
 import { Link } from "react-router-dom";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
+import AddAnswer from "./AddAnswer";
 
 export default function QuestionList() {
     const [question, setQuestion] = useState({ text: '' });
     const [questions, setQuestions] = useState([]);
     const location = useLocation();
+    const [answers, setAnswers] = useState([]);
 
     const [columnDefs] = useState([
         { field: 'text', sortable: true, filter: true, floatingFilter: true },
+        {
+            cellRenderer: params => <AddAnswer addAnswer={addAnswer} questionId={params.data.questionId} />
+        },
         {
             cellRenderer: (params) => (
                 <Link to={`/answers?questionId=${params.data.questionId}`}>
@@ -46,6 +51,38 @@ export default function QuestionList() {
             .catch(err => console.error(err))
     }
 
+    useEffect(() => {
+        const questionId = new URLSearchParams(location.search).get("questionId");
+        if (questionId) {
+            getAnswers(questionId);
+        }
+    }, [location]);
+
+    const addAnswer = (answer) => {
+        fetch(`https://kyselyapp.onrender.com/questions/${answer.questionId}/answers`, {
+        method: 'POST',
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify({ answer: answer.answer })
+    })
+        .then(response => {
+            if (response.ok) {
+                getAnswers(answer.questionId);
+            } else {
+                alert("Something went wrong");
+            }
+        })
+        .catch(err => console.error(err));
+    }
+
+    const getAnswers = (questionId) => {
+        fetch(`https://kyselyapp.onrender.com/questions/${questionId}/answers`)
+        .then(response => response.json())
+        .then(responseData => {
+            setAnswers(responseData.answers)
+        })
+        .catch(err => console.error(err));
+    }
+
     return (
         <>
             <div className="ag-theme-material" style={{ width: '100%', height: 500 }}>
@@ -54,7 +91,6 @@ export default function QuestionList() {
                     columnDefs={columnDefs}
                     defaultColDef={defaultColDef}
                 >
-
                 </AgGridReact>
             </div>
         </>
