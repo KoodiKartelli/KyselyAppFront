@@ -12,11 +12,12 @@ export default function QuestionList() {
     const [questions, setQuestions] = useState([]);
     const location = useLocation();
     const [answers, setAnswers] = useState([]);
+    const [rowHeight, setRowHeight] = useState(150); 
 
     const [columnDefs] = useState([
         { field: 'text', sortable: true, filter: true, floatingFilter: true },
         {
-            cellRenderer: params => <AddAnswer addAnswer={addAnswer} questionId={params.data.questionId} />
+            cellRenderer: params => <AddAnswer addAnswer={addAnswer} questionId={params.data.questionId} options={params.data.options} />
         },
         {
             cellRenderer: (params) => (
@@ -90,6 +91,7 @@ export default function QuestionList() {
                     rowData={questions}
                     columnDefs={columnDefs}
                     defaultColDef={defaultColDef}
+                    getRowHeight={() => rowHeight}
                 >
                 </AgGridReact>
             </div>
