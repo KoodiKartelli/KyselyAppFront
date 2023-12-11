@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import { useLocation } from "react-router-dom";
-import { Button, Input } from "@mui/material";
+import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 import AddAnswer from "./AddAnswer";
 
 export default function QuestionList() {
-    const [question, setQuestion] = useState({ text: '' });
     const [questions, setQuestions] = useState([]);
     const location = useLocation();
     const [answers, setAnswers] = useState([]);
-    const [rowHeight, setRowHeight] = useState(150); 
+    const [rowHeight, setRowHeight] = useState(150);
 
     const [columnDefs] = useState([
         { field: 'text', sortable: true, filter: true, floatingFilter: true },
@@ -61,27 +60,27 @@ export default function QuestionList() {
 
     const addAnswer = (answer) => {
         fetch(`https://kyselyapp.onrender.com/questions/${answer.questionId}/answers`, {
-        method: 'POST',
-        headers: { 'Content-type': 'application/json' },
-        body: JSON.stringify({ answer: answer.answer })
-    })
-        .then(response => {
-            if (response.ok) {
-                getAnswers(answer.questionId);
-            } else {
-                alert("Something went wrong");
-            }
+            method: 'POST',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify({ answer: answer.answer })
         })
-        .catch(err => console.error(err));
+            .then(response => {
+                if (response.ok) {
+                    getAnswers(answer.questionId);
+                } else {
+                    alert("Something went wrong");
+                }
+            })
+            .catch(err => console.error(err));
     }
 
     const getAnswers = (questionId) => {
         fetch(`https://kyselyapp.onrender.com/questions/${questionId}/answers`)
-        .then(response => response.json())
-        .then(responseData => {
-            setAnswers(responseData.answers)
-        })
-        .catch(err => console.error(err));
+            .then(response => response.json())
+            .then(responseData => {
+                setAnswers(responseData.answers)
+            })
+            .catch(err => console.error(err));
     }
 
     return (
