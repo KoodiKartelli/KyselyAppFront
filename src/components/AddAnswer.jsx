@@ -3,8 +3,6 @@ import { Button, Input, Radio, RadioGroup, FormControlLabel } from "@mui/materia
 
 export default function AddAnswer(props) {
 
-  console.log("Options:", props.options)
-
   const [answer, setAnswer] = useState({ answer: '' });
   const [selectedOption, setSelectedOption] = useState(null);
 
@@ -45,7 +43,6 @@ export default function AddAnswer(props) {
   const handleSave = () => {
     const selectedAnswer = selectedOption !== null ? selectedOption : answer.answer;
     props.addAnswer({ questionId: props.questionId, answer: selectedAnswer });
-    console.log("Saving answer:", selectedAnswer);
   };
 
   return (

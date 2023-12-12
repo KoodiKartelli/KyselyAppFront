@@ -38,7 +38,7 @@ export default function QuestionList() {
         minWidth: 350,
     }
 
-    const fetchQuestions = (inquiryid) => {
+    const fetchQuestions = (inquiryid) => { // Hakee tietyn kyselyn kysymykset
         fetch(`https://kyselyapp.onrender.com/inquiries/${inquiryid}/questions`)
             .then(response => {
                 if (response.ok) {
@@ -58,7 +58,7 @@ export default function QuestionList() {
         }
     }, [location]);
 
-    const addAnswer = (answer) => {
+    const addAnswer = (answer) => { // Voi lisätä tiettyyn kysymykseen vastauksen
         fetch(`https://kyselyapp.onrender.com/questions/${answer.questionId}/answers`, {
             method: 'POST',
             headers: { 'Content-type': 'application/json' },
@@ -74,7 +74,7 @@ export default function QuestionList() {
             .catch(err => console.error(err));
     }
 
-    const getAnswers = (questionId) => {
+    const getAnswers = (questionId) => { // Hakee tietyn kysymyksen vastaukset
         fetch(`https://kyselyapp.onrender.com/questions/${questionId}/answers`)
             .then(response => response.json())
             .then(responseData => {
@@ -94,6 +94,9 @@ export default function QuestionList() {
                 >
                 </AgGridReact>
             </div>
+                <Link to={`/`}>
+                    <Button size="small">Back To Inquiries</Button>
+                </Link>
         </>
     )
 
