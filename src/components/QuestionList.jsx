@@ -9,6 +9,7 @@ import AddAnswer from "./AddAnswer";
 
 export default function QuestionList() {
     const [questions, setQuestions] = useState([]);
+    const [inquiryTitle, setInquiryTitle] = useState("");
     const location = useLocation();
     const [answers, setAnswers] = useState([]);
     const [rowHeight, setRowHeight] = useState(150);
@@ -31,6 +32,7 @@ export default function QuestionList() {
         const inquiryid = new URLSearchParams(location.search).get("inquiryid");
         if (inquiryid) {
             fetchQuestions(inquiryid);
+            fetchInquiryTitle(inquiryid);
         }
     }, [location]);
 
@@ -49,7 +51,20 @@ export default function QuestionList() {
             })
             .then(data => setQuestions(data.questions))
             .catch(err => console.error(err))
-    }
+    };
+
+    const fetchInquiryTitle = (inquiryid) => {
+        fetch(`https://kyselyapp.onrender.com/inquiries/${inquiryid}/questions`)
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error("Error in fetch: " + response.statusText)
+                }
+            })
+            .then(data => setInquiryTitle(data.title))
+            .catch(err => console.error(err))
+    };
 
     useEffect(() => {
         const questionId = new URLSearchParams(location.search).get("questionId");
@@ -72,7 +87,7 @@ export default function QuestionList() {
                 }
             })
             .catch(err => console.error(err));
-    }
+    };
 
     const getAnswers = (questionId) => { // Hakee tietyn kysymyksen vastaukset
         fetch(`https://kyselyapp.onrender.com/questions/${questionId}/answers`)
@@ -81,10 +96,13 @@ export default function QuestionList() {
                 setAnswers(responseData.answers)
             })
             .catch(err => console.error(err));
-    }
+    };
 
     return (
         <>
+            <>
+                <h2>{inquiryTitle}</h2>
+            </>
             <div className="ag-theme-material" style={{ width: '100%', height: 500 }}>
                 <AgGridReact
                     rowData={questions}
@@ -95,9 +113,13 @@ export default function QuestionList() {
                 </AgGridReact>
             </div>
                 <Link to={`/`}>
-                    <Button size="small">Back To Inquiries</Button>
+                    <Button size="small"
+                        onClick={() => navigate(-1)}
+                        style={{marginTop: 30}}>
+                            Back To Inquiries
+                    </Button>
                 </Link>
         </>
-    )
+    );
 
-}
+};

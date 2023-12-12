@@ -47,6 +47,9 @@ export default function InquiryList() {
 
     return (
         <>
+            <>
+                <h2>KoodiKartellin kyselypalvelu</h2>
+            </>
             <div className="ag-theme-material" style={{ height: '700px', width: '95%', margin: 'auto' }}>
                 <AgGridReact
                     rowData={inquiries}
