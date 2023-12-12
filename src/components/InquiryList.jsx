@@ -29,8 +29,7 @@ export default function InquiryList() {
     }, [])
 
     const defaultColDef = {
-        minWidth: 350,
-        rowHeight: 100,
+        minWidth: 350
     }
 
     const fetchInquiries = () => {

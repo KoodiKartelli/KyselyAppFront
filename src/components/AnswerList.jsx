@@ -10,7 +10,7 @@ export default function AnswerList() {
     const location = useLocation();
 
     const [columnDefs] = useState([
-        { field: 'answer', sortable: true, filter: true, floatingFilter: true }
+        { field: 'answer', sortable: true, filter: true, floatingFilter: true, autoHeight: true }
     ]);
 
     useEffect(() => {

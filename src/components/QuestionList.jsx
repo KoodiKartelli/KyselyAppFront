@@ -14,7 +14,7 @@ export default function QuestionList() {
     const [rowHeight, setRowHeight] = useState(150);
 
     const [columnDefs] = useState([
-        { field: 'text', sortable: true, filter: true, floatingFilter: true },
+        { field: 'text', sortable: true, filter: true, floatingFilter: true, autoHeight: true },
         {
             cellRenderer: params => <AddAnswer addAnswer={addAnswer} questionId={params.data.questionId} options={params.data.options} />
         },
